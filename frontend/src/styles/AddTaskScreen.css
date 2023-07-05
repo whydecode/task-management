@@ -1,0 +1,54 @@
+.AddTaskScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+
+.add-task-form {
+  width: 80%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.form-field > label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-field > input,
+.form-field > select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-field > input {
+  width: calc(100% - 21px);
+}
+
+.addTask {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: calc(0.5em + 0.5vw);
+}
+
+@media (max-width: 767px) {
+  .add-task-form {
+    width: 90%;
+  }
+}

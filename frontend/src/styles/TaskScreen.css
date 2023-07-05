@@ -1,0 +1,44 @@
+.task-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+.task-table {
+  width: 80%;
+  border-collapse: collapse;
+}
+
+.task-table th,
+.task-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.task-table td > a > svg {
+  color: #000;
+  margin: 0 10px;
+}
+.data-center {
+  text-align: center;
+}
+.task-table th {
+  background-color: #f2f2f2;
+}
+
+.task-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 767px) {
+  .task-table {
+    width: 90%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .task-table th,
+  .task-table td {
+    /* white-space: nowrap; */
+  }
+}
