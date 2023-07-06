@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const authRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 require("dotenv").config();
+const path = require("path");
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
@@ -38,6 +39,12 @@ mongoose
   });
 app.use("/api/users", authRoutes);
 app.use("/api/tasks", taskRoutes);
+const _dirname = path.resolve();
+
+app.use(express.static(path.join(_dirname, "/frontend/build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(_dirname, "frontend", "build", "index.html"))
+);
 // Start the server
 const port = 5000;
 app.listen(port, () => {

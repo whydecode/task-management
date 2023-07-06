@@ -4,7 +4,10 @@
   align-items: center;
   flex-direction: column;
   height: 100vh;
+  background: radial-gradient(transparent 79%, #ffc95f 80%);
+  background-size: 1em 1em;
   background-color: #fff9c9;
+  opacity: 1;
 }
 .loginForm {
   background-color: #ffc95f;
