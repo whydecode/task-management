@@ -5,11 +5,14 @@ import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 import Navbar from "./components/Navbar";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import TasksScreen from "./screens/TasksScreen";
 import AddTaskScreen from "./screens/AddTaskScreen";
 import EditTaskScreen from "./screens/EditTaskScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import UsersScreen from "./screens/UsersScreen";
+import AdminScreen from "./screens/AdminScreen";
+import AllTasksScreen from "./screens/AllTasksScreen";
 function App() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -28,6 +31,9 @@ function App() {
           <Route path="/addtask" element={<AddTaskScreen />} />
           <Route path="/edittask/:id" element={<EditTaskScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/users" element={<UsersScreen />} />
+          <Route path="/admin" element={<AdminScreen />} />
+          <Route path="/alltasks" element={<AllTasksScreen />} />
         </Routes>
       </BrowserRouter>
     </>

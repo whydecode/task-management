@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import "../styles/ProfileScreen.css";
 import "../styles/LoginScreen.css";
 import { updateUser } from "../actions/userActions";
+import { useNavigate } from "react-router-dom";
 const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userLogin = useSelector((state) => state.userLogin);
+  const navigate = useNavigate();
   const { loading, userInfo } = userLogin;
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();

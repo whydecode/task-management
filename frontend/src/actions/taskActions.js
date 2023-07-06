@@ -26,7 +26,15 @@ export const listTasks = () => async (dispatch, getState) => {
     dispatch({
       type: TASK_LIST_REQUEST,
     });
-    const { data } = await axios.get("http://localhost:5000/api/tasks");
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get("http://localhost:5000/api/tasks", config);
     dispatch({
       type: TASK_LIST_SUCCESS,
       payload: data,

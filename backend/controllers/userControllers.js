@@ -67,10 +67,10 @@ const getUsers = asyncHandler(async (req, res) => {
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+  console.log("deleteUser");
+  const user = await User.findByIdAndRemove(req.params.id);
 
   if (user) {
-    await user.remove();
     res.json({ message: "User removed" });
   } else {
     res.status(404);
@@ -119,4 +119,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { authUser, registerUser, getUsers, deleteUser, getUserById, updateUserProfile };
+module.exports = {
+  authUser,
+  registerUser,
+  getUsers,
+  deleteUser,
+  getUserById,
+  updateUserProfile,
+};

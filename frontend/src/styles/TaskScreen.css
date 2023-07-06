@@ -23,11 +23,13 @@
   text-align: center;
 }
 .task-table th {
-  background-color: #f2f2f2;
+  background-color: #ffc95f;
 }
-
+.task-table tbody tr:nth-child(odd) {
+  background-color: #fff9c9;
+}
 .task-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #ffc95f;
 }
 
 @media (max-width: 767px) {

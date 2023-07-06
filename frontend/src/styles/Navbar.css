@@ -1,8 +1,6 @@
 .navbar {
-  background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   top: 0;
-  width: 100%;
   z-index: 100;
   display: flex;
   justify-content: center;
@@ -13,4 +11,55 @@
   display: flex;
   list-style: none;
   justify-content: space-around;
+}
+/* Navbar.css */
+/* Navbar.css */
+
+.navbar {
+  background-color: #fff9c9;
+  padding: 10px;
+}
+
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li {
+  margin-right: 10px;
+}
+
+.nav-list li a {
+  color: #862b0d;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-list li a:hover {
+  background-color: #ffc95f;
+}
+
+.active {
+  background-color: #ffc95f;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-list li {
+    margin-bottom: 10px;
+  }
 }

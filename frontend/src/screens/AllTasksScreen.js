@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../styles/TaskScreen.css";
 import { useDispatch, useSelector } from "react-redux";
-import { listMyTask, deleteTask } from "../actions/taskActions";
+import { deleteTask, listTasks } from "../actions/taskActions";
 import Circles from "../components/Circles";
-import { Link } from "react-router-dom";
-const TasksScreen = () => {
-  const myTask = useSelector((state) => state.taskMyList);
-  const { loading, error, tasks } = myTask;
+import { Link, useNavigate } from "react-router-dom";
+import { listUsers } from "../actions/userActions";
+const AllTasksScreen = () => {
+  const allTasks = useSelector((state) => state.taskList);
+  const { loading, error, tasks } = allTasks;
+  const userList = useSelector((state) => state.userList);
+  const { users } = userList;
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -14,12 +17,25 @@ const TasksScreen = () => {
   const handleDeleteTask = (id) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       dispatch(deleteTask(id));
-      window.location.reload();
     }
   };
   useEffect(() => {
-    dispatch(listMyTask());
+    dispatch(listTasks());
+    dispatch(listUsers());
   }, [dispatch, userInfo]);
+  useEffect(() => {
+    
+  }, [tasks]);
+  const findName = (id) => {
+    if (!users) {
+      setTimeout(() => {
+        const user = users.find((user) => user._id === id);
+        return user.name;
+      }, 500);
+    }
+    const user = users.find((user) => user._id === id);
+    return user.name;
+  };
 
   return (
     <>
@@ -27,7 +43,7 @@ const TasksScreen = () => {
         <Circles />
       ) : (
         <div className="task-screen">
-          <h1>My Tasks</h1>
+          <h1>All Tasks</h1>
           {tasks && tasks.length > 0 ? (
             <table className="task-table">
               <thead>
@@ -49,7 +65,9 @@ const TasksScreen = () => {
                       {new Date(task.dueDate).toLocaleDateString("en-GB")}
                     </td>
                     <td className="data-center">{task.status}</td>
-                    <td className="data-center">{userInfo.name}</td>
+                    <td className="data-center">
+                      {findName(task.assignedUser)}
+                    </td>
                     <td className="data-center">
                       <Link to={`/edittask/${task._id}`}>
                         <svg
@@ -94,4 +112,4 @@ const TasksScreen = () => {
   );
 };
 
-export default TasksScreen;
+export default AllTasksScreen;

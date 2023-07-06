@@ -11,6 +11,7 @@ const LoginScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
@@ -18,12 +19,6 @@ const LoginScreen = () => {
       console.log(error);
     }
   };
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/");
-    }
-  }, [userInfo, navigate]);
 
   return (
     <div className="loginPage">

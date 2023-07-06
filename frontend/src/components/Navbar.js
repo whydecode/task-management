@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import "../styles/Navbar.css";
@@ -10,37 +10,55 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = () => {
-    dispatch(logout());
-    navigate("/");
+    localStorage.removeItem("userInfo");
+    navigate("/login");
   };
   return (
     <div className="navbar">
       <ul className="nav-list">
         <li>
-          <Link to="/">Home</Link>
+          <NavLink exact="true" activeclassname="active" to="/">
+            Home
+          </NavLink>
         </li>
         {userInfo && userInfo.isAdmin ? null : (
           <li>
-            <Link to="/tasks">Tasks</Link>
+            <NavLink to="/tasks" activeclassname="active">
+              Tasks
+            </NavLink>
           </li>
         )}
 
         {userInfo && userInfo.isAdmin && (
           <li>
-            <Link to="/users">Users</Link>
+            <NavLink to="/users" activeclassname="active">
+              Users
+            </NavLink>
           </li>
         )}
         {userInfo && userInfo.isAdmin && (
           <li>
-            <Link to="/admin">Admin</Link>
+            <NavLink to="/admin" activeclassname="active">
+              Admin
+            </NavLink>
           </li>
         )}
-
+        {userInfo && userInfo.isAdmin && (
+          <li>
+            <NavLink to="/alltasks" activeclassname="active">
+              All Tasks
+            </NavLink>
+          </li>
+        )}
         <li>
-          <Link to="/profile">Profile</Link>
+          <NavLink to="/profile" activeclassname="active">
+            Profile
+          </NavLink>
         </li>
         <li>
-          <Link to="/addtask">Add Task</Link>
+          <NavLink to="/addtask" activeclassname="active">
+            Add Task
+          </NavLink>
         </li>
         <li>
           <a href="" onClick={logoutHandler}>

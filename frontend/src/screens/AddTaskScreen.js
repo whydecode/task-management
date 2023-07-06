@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "../actions/taskActions";
+import { addTask, listMyTask } from "../actions/taskActions";
 import { listUsers } from "../actions/userActions";
 import "../styles/AddTaskScreen.css";
+import { useNavigate } from "react-router-dom";
 const AddTaskScreen = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -11,7 +12,7 @@ const AddTaskScreen = () => {
   const [status, setStatus] = useState("");
   const userList = useSelector((state) => state.userList);
   const { users } = userList;
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleAddTask = (e) => {
     e.preventDefault();
@@ -24,6 +25,8 @@ const AddTaskScreen = () => {
     };
     console.log(task);
     dispatch(addTask(task));
+    dispatch(listMyTask());
+    navigate("/tasks");
   };
   useEffect(() => {
     dispatch(listUsers());

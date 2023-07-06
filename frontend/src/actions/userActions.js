@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -17,6 +18,9 @@ import {
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_DELETE_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
 } from "../constants/userConstants";
 
 import axios from "axios";
@@ -49,6 +53,7 @@ export const login = (email, password) => async (dispatch) => {
 
     // Set user to local storage
     localStorage.setItem("userInfo", JSON.stringify(data)); // Store user info in local storage
+    window.location.href = "/"; // Redirect to home page
   } catch (error) {
     // Dispatch fail
     dispatch({
@@ -90,6 +95,8 @@ export const register = (name, email, password) => async (dispatch) => {
     });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
+    const navigate = useNavigate();
+    navigate("/");
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -232,6 +239,41 @@ export const updateUser = (user) => async (dispatch, getState) => {
     // Dispatch fail
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+    // Get user info
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // Set headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    // Make request
+    await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+    dispatch(listUsers()); // Dispatch list users again to update the list
+    // Dispatch success
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

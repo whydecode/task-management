@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { listUsers } from "../actions/userActions";
 import { getTaskDetails } from "../actions/taskActions";
 
@@ -16,7 +16,9 @@ const EditTaskScreen = () => {
   const taskDetails = useSelector((state) => state.taskDetails);
   const { loading, task } = taskDetails;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
+    
     dispatch(listUsers());
     dispatch(getTaskDetails(id));
     if (task) {

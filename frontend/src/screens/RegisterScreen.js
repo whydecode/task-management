@@ -17,13 +17,11 @@ const RegisterScreen = () => {
     dispatch(register(name, email, password));
     if (error) {
       console.log(error);
-    }
-  };
-  useEffect(() => {
-    if (userInfo) {
+    } else {
       navigate("/");
     }
-  }, [userInfo, navigate]);
+  };
+
   return (
     <div className="loginPage">
       <form onSubmit={handleRegister} className="loginForm">

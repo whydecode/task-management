@@ -5,6 +5,7 @@ import {
   userRegisterReducer,
   userListReducer,
   userUpdateProfileReducer,
+  userDeleteReducer,
 } from "./reducers/userReducers";
 import {
   taskListReducer,
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userList: userListReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  userDelete: userDeleteReducer,
   taskList: taskListReducer,
   taskMyList: taskMyListReducer,
   taskDetails: taskDetailsReducer,
