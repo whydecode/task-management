@@ -4,6 +4,7 @@
   z-index: 100;
   display: flex;
   justify-content: center;
+  min-height: 30px;
 }
 .nav-list {
   padding: 0;
@@ -49,17 +50,32 @@
   background-color: #ffc95f;
 }
 
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 10px 20px;
   }
-
+  
   .nav-list {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .nav-list li {
     margin-bottom: 10px;
+  }
+  .hide-list {
+    display: none;
+  }
+  .hamburger {
+    height: 30px;
+    display: block;
   }
 }
