@@ -173,3 +173,36 @@ export const getTaskDetails = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const updateTask = (task) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: TASK_UPDATE_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const response = await axios.put(
+      `http://localhost:5000/api/tasks/${task._id}`,
+      task,
+      config
+    );
+    dispatch({
+      type: TASK_UPDATE_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: TASK_UPDATE_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
+  }
+};

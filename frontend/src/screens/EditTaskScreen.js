@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { listUsers } from "../actions/userActions";
-import { getTaskDetails } from "../actions/taskActions";
+import { getTaskDetails, listMyTask, updateTask } from "../actions/taskActions";
 
 const EditTaskScreen = () => {
   const { id } = useParams();
@@ -18,7 +18,6 @@ const EditTaskScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    
     dispatch(listUsers());
     dispatch(getTaskDetails(id));
     if (task) {
@@ -35,6 +34,17 @@ const EditTaskScreen = () => {
   }, [dispatch, loading]);
   const handleEditTask = (e) => {
     e.preventDefault();
+    const updatedTask = {
+      _id: id,
+      title,
+      description,
+      dueDate,
+      assignedUser,
+      status,
+    };
+    dispatch(updateTask(updatedTask));
+    dispatch(listMyTask());
+    navigate("/tasks");
   };
 
   return (

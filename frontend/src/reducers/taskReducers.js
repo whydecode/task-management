@@ -57,3 +57,29 @@ export const taskDetailsReducer = (state = { task: {} }, action) => {
       return state;
   }
 };
+
+export const taskDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case TASK_DELETE_REQUEST:
+      return { loading: true };
+    case TASK_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case TASK_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const taskUpdateReducer = (state = { task: {} }, action) => {
+  switch (action.type) {
+    case TASK_UPDATE_REQUEST:
+      return { loading: true };
+    case TASK_UPDATE_SUCCESS:
+      return { loading: false, success: true, task: action.payload };
+    case TASK_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};

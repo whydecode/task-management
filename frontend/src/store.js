@@ -11,6 +11,8 @@ import {
   taskListReducer,
   taskMyListReducer,
   taskDetailsReducer,
+  taskDeleteReducer,
+  taskUpdateReducer,
 } from "./reducers/taskReducers";
 
 // Get user info from local storage
@@ -27,6 +29,8 @@ const reducer = combineReducers({
   taskList: taskListReducer,
   taskMyList: taskMyListReducer,
   taskDetails: taskDetailsReducer,
+  taskDelete: taskDeleteReducer,
+  taskUpdate: taskUpdateReducer,
 });
 
 const initialState = {
