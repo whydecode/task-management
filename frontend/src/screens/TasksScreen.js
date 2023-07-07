@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { listMyTask, deleteTask } from "../actions/taskActions";
 import Circles from "../components/Circles";
 import { Link } from "react-router-dom";
+import { motion, useAnimation } from "framer-motion";
 const TasksScreen = () => {
   const myTask = useSelector((state) => state.taskMyList);
   const { loading, error, tasks } = myTask;
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  const controls = useAnimation();
   const handleDeleteTask = (id) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       dispatch(deleteTask(id));
@@ -20,6 +21,15 @@ const TasksScreen = () => {
   useEffect(() => {
     dispatch(listMyTask());
   }, [dispatch, userInfo]);
+  useEffect(() => {
+    controls.start((i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2, // Delay each row by 0.2 seconds
+      },
+    }));
+  }, [tasks, controls]);
 
   return (
     <>
@@ -41,8 +51,13 @@ const TasksScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {tasks.map((task) => (
-                  <tr key={task._id}>
+                {tasks.map((task, index) => (
+                  <motion.tr
+                    key={task._id}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={controls}
+                    custom={index}
+                  >
                     <td>{task.title}</td>
                     <td>{task.description}</td>
                     <td className="data-center">
@@ -81,7 +96,7 @@ const TasksScreen = () => {
                         </svg>
                       </a>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
               </tbody>
             </table>

@@ -5,6 +5,8 @@ import { deleteTask, listTasks } from "../actions/taskActions";
 import Circles from "../components/Circles";
 import { Link, useNavigate } from "react-router-dom";
 import { listUsers } from "../actions/userActions";
+import { motion, useAnimation } from "framer-motion";
+
 const AllTasksScreen = () => {
   const allTasks = useSelector((state) => state.taskList);
   const { loading, error, tasks } = allTasks;
@@ -13,7 +15,9 @@ const AllTasksScreen = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  const [taskList, setTaskList] = useState([]);
+  const [status, setStatus] = useState("");
+  const [assignedUser, setAssignedUser] = useState("");
   const handleDeleteTask = (id) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       dispatch(deleteTask(id));
@@ -22,19 +26,103 @@ const AllTasksScreen = () => {
   useEffect(() => {
     dispatch(listTasks());
     dispatch(listUsers());
-  }, [dispatch, userInfo]);
+  }, [dispatch]);
+
   useEffect(() => {
-    
+    setTaskList(tasks);
   }, [tasks]);
-  const findName = (id) => {
-    if (!users) {
-      setTimeout(() => {
-        const user = users.find((user) => user._id === id);
-        return user.name;
-      }, 500);
+  useEffect(() => {
+    if (taskList && users) {
+      const updatedTaskList = taskList.map((task) => {
+        const assignedUser = users.find(
+          (user) => task.assignedUser === user._id
+        );
+        if (assignedUser) {
+          return { ...task, assignedUser: assignedUser.name };
+        }
+        return task;
+      });
+
+      if (JSON.stringify(updatedTaskList) !== JSON.stringify(taskList)) {
+        setTaskList(updatedTaskList);
+      }
     }
-    const user = users.find((user) => user._id === id);
-    return user.name;
+  }, [taskList, users]);
+
+  const controls = useAnimation();
+  useEffect(() => {
+    controls.start((i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.12, // Delay each row by 0.2 seconds
+      },
+    }));
+  }, [controls, taskList]);
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+    let filteredTasks = tasks;
+    if (status && status !== "") {
+      filteredTasks = filteredTasks.filter((task) => task.status === status);
+    }
+    if (assignedUser && assignedUser !== "") {
+      filteredTasks = filteredTasks.filter(
+        (task) => task.assignedUser === assignedUser
+      );
+    }
+    setTaskList(filteredTasks);
+  };
+  const handleReset = (e) => {
+    e.preventDefault();
+    setTaskList(tasks);
+  };
+
+  const handleSort = (e) => {
+    e.preventDefault();
+    const sortedTasks = [...taskList];
+    if (e.target.value === "title") {
+      sortedTasks.sort((a, b) => {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (e.target.value === "dueDate") {
+      sortedTasks.sort((a, b) => {
+        if (a.dueDate < b.dueDate) {
+          return -1;
+        }
+        if (a.dueDate > b.dueDate) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (e.target.value === "status") {
+      sortedTasks.sort((a, b) => {
+        if (a.status < b.status) {
+          return -1;
+        }
+        if (a.status > b.status) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (e.target.value === "assignedUser") {
+      sortedTasks.sort((a, b) => {
+        if (a.assignedUser < b.assignedUser) {
+          return -1;
+        }
+        if (a.assignedUser > b.assignedUser) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    setTaskList(sortedTasks);
   };
 
   return (
@@ -44,7 +132,76 @@ const AllTasksScreen = () => {
       ) : (
         <div className="task-screen">
           <h1>All Tasks</h1>
-          {tasks && tasks.length > 0 ? (
+          <div className="filter-div">
+            <form
+              action=""
+              className="filter"
+              onSubmit={handleFilter}
+              onReset={handleReset}
+            >
+              <label htmlFor="status">Status</label>
+              <select
+                name="status"
+                id="status"
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                }}
+              >
+                <option value="">All</option>
+                <option value="pending">Pending</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="completed">Completed</option>
+              </select>
+              <label htmlFor="assignedUser">Assigned User</label>
+              <select
+                name="assignedUser"
+                id="assignedUser"
+                onChange={(e) => {
+                  setAssignedUser(e.target.value);
+                }}
+              >
+                <option value="">All</option>
+                {users &&
+                  users.map((user) => (
+                    <option key={user._id} value={user._id}>
+                      {user.name}
+                    </option>
+                  ))}
+              </select>
+              <button type="submit"> Filter</button>
+              <button type="reset">Reset</button>
+            </form>
+            <form action="" className="sort">
+              <label htmlFor="sort">Sort By</label>
+              <select
+                name="sort"
+                id="sort"
+                onChange={(e) => {
+                  handleSort(e);
+                }}
+              >
+                <option value="">None</option>
+                <option value="title">Title</option>
+                <option value="dueDate">Due Date</option>
+                <option value="status">Status</option>
+                <option value="assignedUser">Assigned User</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Search..."
+                name="search"
+                onChange={(e) => {
+                  const filteredTasks = tasks.filter((task) =>
+                    task.title
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase())
+                  );
+                  setTaskList(filteredTasks);
+                }}
+              />
+            </form>
+          </div>
+          {taskList && tasks.length > 0 ? (
             <table className="task-table">
               <thead>
                 <tr>
@@ -57,17 +214,20 @@ const AllTasksScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {tasks.map((task) => (
-                  <tr key={task._id}>
+                {taskList.map((task, index) => (
+                  <motion.tr
+                    key={task._id}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={controls}
+                    custom={index}
+                  >
                     <td>{task.title}</td>
                     <td>{task.description}</td>
                     <td className="data-center">
                       {new Date(task.dueDate).toLocaleDateString("en-GB")}
                     </td>
                     <td className="data-center">{task.status}</td>
-                    <td className="data-center">
-                      {findName(task.assignedUser)}
-                    </td>
+                    <td className="data-center">{task.assignedUser}</td>
                     <td className="data-center">
                       <Link to={`/edittask/${task._id}`}>
                         <svg
@@ -99,7 +259,7 @@ const AllTasksScreen = () => {
                         </svg>
                       </a>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
               </tbody>
             </table>

@@ -9,11 +9,15 @@
 /* UserInfo.css */
 
 .user-info-container {
-  background-color: #f9f9f9;
+  background-color: #fff9c9;
+
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 20px;
   margin-bottom: 20px;
+  width: 80%;
+  min-height: 60vh;
+  position: relative;
 }
 
 .user-info-label {
@@ -33,6 +37,9 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
+  position: absolute;
+  top: 3%;
+  right: 3%;
 }
 
 .edit-button:hover {

@@ -4,10 +4,12 @@
   align-items: center;
   justify-content: center;
   min-height: 50vh;
+  padding-bottom: 50px;
 }
 .task-table {
   width: 80%;
   border-collapse: collapse;
+  margin-top: 30px;
 }
 
 .task-table th,
@@ -31,16 +33,123 @@
 .task-table tbody tr:nth-child(even) {
   background-color: #ffc95f;
 }
+.filter-div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
+  flex-wrap: wrap;
+  min-width: 250px;
+}
+.filter {
+  background-color: #fff9c9;
+  padding: 5%;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter label {
+  font-weight: bold;
+}
+
+.filter select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.filter button {
+  padding: 0.5rem 1rem;
+  background-color: #862b0d;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.search {
+  background-color: #fff9c9;
+  padding: 5%;
+  margin: 10px 0;
+  width: 55%;
+}
+.sort input {
+  padding: 0.5rem;
+  width: 40%;
+  margin-left: 20px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.sort {
+  background-color: #fff9c9;
+  padding: 5%;
+  width: 55%;
+  text-align: center;
+}
+.sort label {
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.sort select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
 
 @media (max-width: 767px) {
   .task-table {
     width: 90%;
     display: block;
     overflow-x: auto;
+    border: 0;
   }
 
-  .task-table th,
+  .task-table {
+    border: 0;
+  }
+
+  .task-table caption {
+    font-size: 1.3em;
+  }
+
+  .task-table thead {
+    border: none;
+    /* clip: rect(0 0 0 0); */
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .task-table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
   .task-table td {
-    /* white-space: nowrap; */
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+  }
+
+  .task-table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a .task-table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .task-table td:last-child {
+    border-bottom: 0;
   }
 }

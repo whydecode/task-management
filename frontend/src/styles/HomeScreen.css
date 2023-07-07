@@ -15,7 +15,20 @@
   color: #666;
   margin-top: 20px;
 }
-
+.home-page__description > span {
+  animation: color-change 2s infinite;
+}
+@keyframes color-change {
+  0% {
+    color: #00f2ff;
+  }
+  50% {
+    color: #ffc95f;
+  }
+  100% {
+    color: #00f7ff;
+  }
+}
 .home-page__features {
   display: flex;
   justify-content: center;
@@ -27,7 +40,7 @@
   max-width: 100%;
   padding: 20px;
   margin: 0 10px;
-  background-color: #FFF9C9;
+  background-color: #fff9c9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

@@ -19,8 +19,8 @@ const HomeScreen = () => {
       <div className="home-page">
         <h1 className="home-page__title">Task Management System</h1>
         <p className="home-page__description">
-          Welcome {user && user.name} to the Task Management System! Manage your
-          tasks efficiently.
+          Welcome <span> {user && user.name}</span> to the Task Management
+          System! Manage your tasks efficiently.
         </p>
         <div className="home-page__features">
           <div className="home-page__feature">

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, listUsers } from "../actions/userActions";
 import Circles from "../components/Circles";
 import "../styles/UsersScreen.css";
+import { motion, useAnimation } from "framer-motion";
+
 const UsersScreen = () => {
   const userList = useSelector((state) => state.userList);
   const { loading, users } = userList;
@@ -15,6 +17,16 @@ const UsersScreen = () => {
   useEffect(() => {
     dispatch(listUsers());
   }, [dispatch]);
+  const controls = useAnimation();
+  useEffect(() => {
+    controls.start((i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.05, // Delay each row by 0.2 seconds
+      },
+    }));
+  }, [users, controls]);
   return (
     <>
       {loading ? (
@@ -32,8 +44,13 @@ const UsersScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
+              {users.map((user, index) => (
+                <motion.tr
+                  key={user._id}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={controls}
+                  custom={index}
+                >
                   <td className="data-center">{user.name}</td>
                   <td className="data-center">{user.email}</td>
                   <td className="data-center">
@@ -54,7 +71,8 @@ const UsersScreen = () => {
                       </svg>
                     </a>
                   </td>
-                </tr>
+                  
+                </motion.tr>
               ))}
             </tbody>
           </table>
