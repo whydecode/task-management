@@ -34,7 +34,7 @@ export const listTasks = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get("http://localhost:5000/api/tasks", config);
+    const { data } = await axios.get("/api/tasks", config);
     dispatch({
       type: TASK_LIST_SUCCESS,
       payload: data,
@@ -63,10 +63,7 @@ export const listMyTask = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const response = await axios.get(
-      "http://localhost:5000/api/tasks/mytasks",
-      config
-    );
+    const response = await axios.get("/api/tasks/mytasks", config);
 
     dispatch({
       type: TASK_LIST_MY_SUCCESS,
@@ -97,11 +94,7 @@ export const addTask = (task) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const response = await axios.post(
-      "http://localhost:5000/api/tasks",
-      task,
-      config
-    );
+    const response = await axios.post("/api/tasks", task, config);
     dispatch({
       type: TASK_CREATE_SUCCESS,
       payload: response.data,
@@ -129,7 +122,7 @@ export const deleteTask = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    await axios.delete(`http://localhost:5000/api/tasks/${id}`, config);
+    await axios.delete(`/api/tasks/${id}`, config);
     dispatch({
       type: TASK_DELETE_SUCCESS,
     });
@@ -156,10 +149,7 @@ export const getTaskDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const response = await axios.get(
-      `http://localhost:5000/api/tasks/${id}`,
-      config
-    );
+    const response = await axios.get(`/api/tasks/${id}`, config);
     dispatch({
       type: TASK_DETAILS_SUCCESS,
       payload: response.data,
@@ -188,11 +178,7 @@ export const updateTask = (task) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const response = await axios.put(
-      `http://localhost:5000/api/tasks/${task._id}`,
-      task,
-      config
-    );
+    const response = await axios.put(`/api/tasks/${task._id}`, task, config);
     dispatch({
       type: TASK_UPDATE_SUCCESS,
       payload: response.data,

@@ -40,7 +40,7 @@ export const login = (email, password) => async (dispatch) => {
 
     // Make request
     const { data } = await axios.post(
-      "http://localhost:5000/api/users/login",
+      "/api/users/login",
       { email, password },
       config
     );
@@ -79,7 +79,7 @@ export const register = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://localhost:5000/api/users/register",
+      "/api/users/register",
       { name, email, password },
       config
     );
@@ -125,7 +125,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/users/${id}`,
+      `/api/users/${id}`,
       config
     );
 
@@ -180,7 +180,7 @@ export const listUsers = () => async (dispatch, getState) => {
     };
 
     // Make request
-    const { data } = await axios.get("http://localhost:5000/api/users", config);
+    const { data } = await axios.get("/api/users", config);
 
     // Dispatch success
     dispatch({
@@ -220,7 +220,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
     // Make request
     const { data } = await axios.put(
-      `http://localhost:5000/api/users/${user._id}`,
+      `/api/users/${user._id}`,
       user,
       config
     );
@@ -265,7 +265,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     };
 
     // Make request
-    await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+    await axios.delete(`/api/users/${id}`, config);
     dispatch(listUsers()); // Dispatch list users again to update the list
     // Dispatch success
     dispatch({
